@@ -135,15 +135,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-STATIC_URL = "static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-COINDCX_API_KEY = '48310bd6e377f68ee44972c5f482919ad3e3566d46968a3d'
-COINDCX_API_SECRET = '0beef1a7195747545aab49c5e150b30e8e47550e516e1c3afd3d3f228bf776a0'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
