@@ -89,11 +89,19 @@ class PositionListView(APIView):
             total_position_size = sum(position['active_pos'] for position in positions)
             for position in positions:
                 position['updated_at'] = position['updated_at'] // 1000  # Convert to seconds
+                pnl = (position['mark_price'] - position['avg_price']) * position['active_pos']
+                position['pnl'] = pnl
+                if int(position['locked_margin']) != 0:
+                    roe = (pnl / position['locked_margin']) * 100
+                else:
+                    roe = 0
+                position['roe'] = roe
             serializer = PositionSerializer(positions, many=True)
             return Response({'positions': serializer.data, 'total_position_size': total_position_size})
         except Exception as e:
             logger.error(f"Error in PositionListView: {e}")
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 @login_required
 def dashboard_view(request):

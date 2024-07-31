@@ -18,3 +18,5 @@ class PositionSerializer(serializers.Serializer):
     mark_price = serializers.FloatField()
     margin_type = serializers.CharField(max_length=50, allow_null=True)
     updated_at = serializers.IntegerField()
+    pnl = serializers.FloatField()
+    roe = serializers.FloatField()
