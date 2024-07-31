@@ -22,7 +22,6 @@ ENCRYPTION_KEY = config('ENCRYPTION_KEY')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -33,7 +32,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -52,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -81,21 +80,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "coin_dashboard.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
 
-
-        'default': {
-            'ENGINE': 'djongo',
-            'NAME': 'coin_dashboard',
-            'ENFORCE_SCHEMA': False,
-            'CLIENT': {
-                'host': config('DB_CONN_String')
-            }
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'coin_dashboard',
+        'ENFORCE_SCHEMA': False,
+        'CLIENT': {
+            'host': config('DB_CONN_String')
         }
+    }
 
     # # 'default': {
     # #     'ENGINE': 'djongo',
@@ -106,7 +103,6 @@ DATABASES = {
     #     "NAME": BASE_DIR / "db.sqlite3",
     # }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -126,7 +122,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -138,19 +133,17 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-
-COINDCX_API_KEY  = '48310bd6e377f68ee44972c5f482919ad3e3566d46968a3d'
-COINDCX_API_SECRET  = '0beef1a7195747545aab49c5e150b30e8e47550e516e1c3afd3d3f228bf776a0'
+COINDCX_API_KEY = '48310bd6e377f68ee44972c5f482919ad3e3566d46968a3d'
+COINDCX_API_SECRET = '0beef1a7195747545aab49c5e150b30e8e47550e516e1c3afd3d3f228bf776a0'
