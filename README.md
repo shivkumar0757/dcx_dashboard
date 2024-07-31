@@ -12,21 +12,21 @@ After logging in, navigate to the API section and generate your API keys (API Ke
 
 Installation
 Clone the Repository:
-bash`
+```bash
 git clone https://github.com/your-repo/coindcx-api-tutorial.git
 cd coindcx-api-tutorial
-`
+```
 
 Create and Activate a Virtual Environment:
 
-bash`
+```bash
 python -m venv venv
 source venv/bin/activate   # On Windows, use 'venv\Scripts\activate'
-`
+```
 Install Dependencies:
-bash`
+```bash
 pip install -r requirements.txt
-`
+```
 
 ## Configuration
 Create a .env File:
@@ -41,6 +41,6 @@ DB_CONN_String=connection_string_for_mongoDb
 
 
 ## Deploying on render
-bash`
+```bash
 gunicorn --bind 0.0.0.0:8000 coin_dashboard.wsgi:application
-`
+```
