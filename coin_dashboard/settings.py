@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'django_extensions',
     'rest_framework',
+    'djongo',
     'positions',
 ]
 
@@ -84,14 +85,25 @@ WSGI_APPLICATION = "coin_dashboard.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': 'coin_dashboard',
+
+
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'coin_dashboard',
+            'ENFORCE_SCHEMA': False,
+            'CLIENT': {
+                'host': config('DB_CONN_String')
+            }
+        }
+
+    # # 'default': {
+    # #     'ENGINE': 'djongo',
+    # #     'NAME': 'coin_dashboard',
+    # # }
+    # "default": {
+    #     "ENGINE": "django.db.backends.sqlite3",
+    #     "NAME": BASE_DIR / "db.sqlite3",
     # }
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
 }
 
 
