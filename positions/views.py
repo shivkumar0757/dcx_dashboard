@@ -84,10 +84,15 @@ class PositionListView(APIView):
         try:
             user_profile = UserProfile.objects.get(user=request.user)
             api_key = user_profile.get_api_key()
+            logger.info('Keys reveived')
             api_secret = user_profile.get_api_secret()
             positions = fetch_positions(api_key, api_secret)
+            positions = [pos for pos in positions if pos['active_pos'] != 0]
+            # print(positions)
+            logger.info('Positions fetched')
             total_position_size = sum(position['active_pos'] for position in positions)
             for position in positions:
+                # print(position['pair'])
                 position['updated_at'] = position['updated_at'] // 1000  # Convert to seconds
                 pnl = (position['mark_price'] - position['avg_price']) * position['active_pos']
                 position['pnl'] = pnl
@@ -96,6 +101,7 @@ class PositionListView(APIView):
                 else:
                     roe = 0
                 position['roe'] = roe
+            logger.info('Positions processed')
             serializer = PositionSerializer(positions, many=True)
             return Response({'positions': serializer.data, 'total_position_size': total_position_size})
         except Exception as e:
