@@ -17,8 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path('api/', include('positions.urls')),
-    path('', include('positions.urls')),
-]
+urlpatterns =  [
+        path('crypto_dashboard/', include([
+                path("admin/", admin.site.urls),
+                path('api/', include('positions.urls')),
+                path('', include('positions.urls')),
+                ])),
+        ]

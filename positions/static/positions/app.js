@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let positionsData = [];
 
     function fetchData() {
-        fetch('/api/positions/')
+        fetch('/crypto_dashboard/api/positions/')
             .then(response => response.json())
             .then(data => {
                 positionsData = data.positions;
