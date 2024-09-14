@@ -90,7 +90,7 @@ class PositionListView(APIView):
             positions = [pos for pos in positions if pos['active_pos'] != 0]
             # print(positions)
             logger.info('Positions fetched')
-            total_position_size = sum(position['active_pos'] for position in positions)
+            total_position_size = sum(position['active_pos'] * position['mark_price'] for position in positions)
             for position in positions:
                 # print(position['pair'])
                 position['updated_at'] = position['updated_at'] // 1000  # Convert to seconds
