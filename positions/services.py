@@ -28,6 +28,7 @@ def fetch_positions(api_key, api_secret):
         }
 
         response = requests.post(COINDCX_API_URL, data=json_body, headers=headers)
+        logger.info(f"CoinDCX API response: {response.text}")
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:

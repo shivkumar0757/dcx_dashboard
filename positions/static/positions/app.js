@@ -7,7 +7,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const sortRoeAscButton = document.getElementById('sort-roe-asc');
     const sortRoeDescButton = document.getElementById('sort-roe-desc');
     const positionsContainer = document.getElementById('positions-container');
+    // Account level
     const totalPositionSizeElement = document.getElementById('total-position-size');
+    const totalProfitElement = document.getElementById('total-profit-loss');
+    const totalInvestment = document.getElementById('total-investment');
+    const currentBalance = document.getElementById('current-balance');
+
+
     let positionsData = [];
 
     function fetchData() {
@@ -16,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 positionsData = data.positions;
                 totalPositionSizeElement.textContent = data.total_position_size.toFixed(2);
+                totalProfitElement.textContent = data.total_pnl.toFixed(2);
+                totalInvestment.textContent = data.total_invested.toFixed(2);
+                currentBalance.textContent = data.current_account_balance.toFixed(2);
                 displayData(positionsData);
             })
             .catch(error => console.error('Error fetching positions:', error));

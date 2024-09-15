@@ -90,7 +90,11 @@ class PositionListView(APIView):
             positions = [pos for pos in positions if pos['active_pos'] != 0]
             # print(positions)
             logger.info('Positions fetched')
-            total_position_size = sum(position['active_pos'] * position['mark_price'] for position in positions)
+            # Account information
+            total_position_size = 0
+            total_pnl = 0
+            total_invested = 0
+            current_account_balance = 0
             for position in positions:
                 # print(position['pair'])
                 position['updated_at'] = position['updated_at'] // 1000  # Convert to seconds
@@ -101,10 +105,71 @@ class PositionListView(APIView):
                 else:
                     roe = 0
                 position['roe'] = roe
+                # Account Information
+                total_position_size += position['active_pos'] * position['mark_price']
+                total_pnl += pnl
+                total_invested += position['locked_margin']
+                current_account_balance = total_invested + total_pnl
             logger.info('Positions processed')
             serializer = PositionSerializer(positions, many=True)
-            return Response({'positions': serializer.data, 'total_position_size': total_position_size})
+            print(serializer.data)
+            return Response({'positions': serializer.data, 'total_position_size': total_position_size,
+                             'total_pnl': total_pnl, 'total_invested':total_invested, 'current_account_balance':current_account_balance }, status=status.HTTP_200_OK)
         except Exception as e:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             logger.error(f"Error in PositionListView: {e}")
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
