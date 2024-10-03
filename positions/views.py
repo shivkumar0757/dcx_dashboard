@@ -5,13 +5,16 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import SignUpForm, UpdateTokenForm
 from .models import UserProfile
-from .services import fetch_positions
+from .services.coindcx_api_price_fetcher import  CoinDCXAPIPriceFetcher
+from .service import fetch_positions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import PositionSerializer
 import logging
 from decouple import config
+
+from .services.coindcx_api_price_fetcher import CoinDCXAPIPriceFetcher
 
 logger = logging.getLogger(__name__)
 ENCRYPTION_KEY = config('ENCRYPTION_KEY')
@@ -96,6 +99,10 @@ class PositionListView(APIView):
             total_invested = 0
             current_account_balance = 0
             for position in positions:
+
+                pair = position['pair']
+                position['mark_price'] = CoinDCXAPIPriceFetcher.get_price(pair=pair)
+
                 # print(position['pair'])
                 position['updated_at'] = position['updated_at'] // 1000  # Convert to seconds
                 pnl = (position['mark_price'] - position['avg_price']) * position['active_pos']
@@ -116,60 +123,6 @@ class PositionListView(APIView):
             return Response({'positions': serializer.data, 'total_position_size': total_position_size,
                              'total_pnl': total_pnl, 'total_invested':total_invested, 'current_account_balance':current_account_balance }, status=status.HTTP_200_OK)
         except Exception as e:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             logger.error(f"Error in PositionListView: {e}")
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 

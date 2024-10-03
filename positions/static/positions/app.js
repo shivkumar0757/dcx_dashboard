@@ -21,10 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 positionsData = data.positions;
-                totalPositionSizeElement.textContent = data.total_position_size.toFixed(2);
-                totalProfitElement.textContent = data.total_pnl.toFixed(2);
-                totalInvestment.textContent = data.total_invested.toFixed(2);
-                currentBalance.textContent = data.current_account_balance.toFixed(2);
+                totalPositionSizeElement.textContent = data.total_position_size.toFixed(6);
+                totalProfitElement.textContent = data.total_pnl.toFixed(6);
+                totalInvestment.textContent = data.total_invested.toFixed(6);
+                currentBalance.textContent = data.current_account_balance.toFixed(6);
                 displayData(positionsData);
             })
             .catch(error => console.error('Error fetching positions:', error));
@@ -44,20 +44,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     <h5 class="card-title">${pos.pair}</h5>
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="card-text"><strong>Position Size:</strong> ${pos.active_pos} (${usdtSize.toFixed(2)} USDT)</p>
-                            <p class="card-text ${pnlClass}"><strong>PnL:</strong> ${pnl.toFixed(2)}</p>
+                            <p class="card-text"><strong>Position Size:</strong> ${pos.active_pos} (${usdtSize.toFixed(6)} USDT)</p>
+                            <p class="card-text ${pnlClass}"><strong>PnL:</strong> ${pnl.toFixed(6)}</p>
                         </div>
                         <div class="col-md-6">
-                            <p class="card-text"><strong>ROE:</strong> ${roe.toFixed(2)}%</p>
-                            <p class="card-text"><strong>Locked Margin:</strong> ${pos.locked_margin.toFixed(2)}</p>
+                            <p class="card-text"><strong>ROE:</strong> ${roe.toFixed(6)}%</p>
+                            <p class="card-text"><strong>Locked Margin:</strong> ${pos.locked_margin.toFixed(6)}</p>
                         </div>
                         <div class="col-md-6">
-                            <p class="card-text"><strong>Current Price:</strong> ${pos.mark_price.toFixed(2)}</p>
-                            <p class="card-text"><strong>Buy Price:</strong> ${pos.avg_price.toFixed(2)}</p>
+                            <p class="card-text"><strong>Current Price:</strong> ${pos.mark_price.toFixed(6)}</p>
+                            <p class="card-text"><strong>Buy Price:</strong> ${pos.avg_price.toFixed(6)}</p>
                         </div>
                         <div class="col-md-6">
                             <p class="card-text"><strong>Leverage:</strong> ${pos.leverage}</p>
-                            <p class="card-text"><strong>Liquidation Price:</strong> ${pos.liquidation_price.toFixed(2)}</p>
+                            <p class="card-text"><strong>Liquidation Price:</strong> ${pos.liquidation_price.toFixed(6)}</p>
                         </div>
                     </div>
                 </div>
