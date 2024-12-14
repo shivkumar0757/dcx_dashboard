@@ -116,6 +116,8 @@ class PositionListView(APIView):
                 total_position_size += position['active_pos'] * position['mark_price']
                 total_pnl += pnl
                 total_invested += position['locked_margin']
+                position['total_leverage'] = total_position_size / total_invested #TODO check if this is correct way
+
                 current_account_balance = total_invested + total_pnl
             logger.info('Positions processed')
             serializer = PositionSerializer(positions, many=True)

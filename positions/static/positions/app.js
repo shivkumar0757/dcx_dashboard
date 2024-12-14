@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const positionsContainer = document.getElementById('positions-container');
     // Account level
     const totalPositionSizeElement = document.getElementById('total-position-size');
+    const totalLeverageElement = document.getElementById('total-leverage');
     const totalProfitElement = document.getElementById('total-profit-loss');
     const totalInvestment = document.getElementById('total-investment');
     const currentBalance = document.getElementById('current-balance');
@@ -22,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 positionsData = data.positions;
                 totalPositionSizeElement.textContent = data.total_position_size.toFixed(6);
+                totalLeverageElement.textContent = data.total_leverage.toFixed(2); //TODO make variable precision
                 totalProfitElement.textContent = data.total_pnl.toFixed(6);
                 totalInvestment.textContent = data.total_invested.toFixed(6);
                 currentBalance.textContent = data.current_account_balance.toFixed(6);
