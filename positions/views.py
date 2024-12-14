@@ -116,14 +116,15 @@ class PositionListView(APIView):
                 total_position_size += position['active_pos'] * position['mark_price']
                 total_pnl += pnl
                 total_invested += position['locked_margin']
-                position['total_leverage'] = total_position_size / total_invested #TODO check if this is correct way
 
                 current_account_balance = total_invested + total_pnl
             logger.info('Positions processed')
             serializer = PositionSerializer(positions, many=True)
             print(serializer.data)
-            return Response({'positions': serializer.data, 'total_position_size': total_position_size,
-                             'total_pnl': total_pnl, 'total_invested':total_invested, 'current_account_balance':current_account_balance }, status=status.HTTP_200_OK)
+            return Response({'total_position_size': total_position_size,
+                             'total_leverage': total_position_size / total_invested,
+                             'total_pnl': total_pnl, 'total_invested':total_invested, 'current_account_balance':current_account_balance,
+                             'positions': serializer.data}, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Error in PositionListView: {e}")
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
