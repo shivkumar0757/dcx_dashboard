@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const currentBalance = document.getElementById('current-balance');
 
     // Mode of positin INR, USDT, BOTH
-        let selectedMode = "USDT"; // Default mode
+    let selectedMode = "USDT"; // Default mode
 
     document.getElementById('mode-usdt').addEventListener('click', () => {
         selectedMode = "USDT";
@@ -36,32 +36,33 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function updateModeButtons() {
-    document.getElementById('mode-usdt').classList.remove('active');
-    document.getElementById('mode-inr').classList.remove('active');
-    document.getElementById('mode-both').classList.remove('active');
+        document.getElementById('mode-usdt').classList.remove('active');
+        document.getElementById('mode-inr').classList.remove('active');
+        document.getElementById('mode-both').classList.remove('active');
 
-    if (selectedMode === "USDT") {
-        document.getElementById('mode-usdt').classList.add('active');
-    } else if (selectedMode === "INR") {
-        document.getElementById('mode-inr').classList.add('active');
-    } else if (selectedMode === "BOTH") {
-        document.getElementById('mode-both').classList.add('active');
+        if (selectedMode === "USDT") {
+            document.getElementById('mode-usdt').classList.add('active');
+        } else if (selectedMode === "INR") {
+            document.getElementById('mode-inr').classList.add('active');
+        } else if (selectedMode === "BOTH") {
+            document.getElementById('mode-both').classList.add('active');
+        }
     }
-}
 
 
     let positionsData = [];
 
     // fetch data based on margin mode
     function fetchData() {
+        console.log("fetch event timestamp: ", new Date().toLocaleTimeString());
         const marginCurrency = selectedMode === "BOTH" ? ["USDT", "INR"] : [selectedMode];
 
         fetch(`/crypto_dashboard/api/positions/?margin_currency_short_name=${marginCurrency}`, {
-        method: 'GET', // Changed to GET as we're using query parameters
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
+            method: 'GET', // Changed to GET as we're using query parameters
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
             .then(response => response.json())
             .then(data => {
                 positionsData = data.positions;
@@ -151,5 +152,11 @@ document.addEventListener('DOMContentLoaded', function () {
     sortRoeAscButton.addEventListener('click', sortByRoeAsc);
     sortRoeDescButton.addEventListener('click', sortByRoeDesc);
 
+    /// Initial fetch on page load
     fetchData();
+
+    // Set interval to refresh every 5 seconds
+    setInterval(fetchData, 5000);
+
+
 });
