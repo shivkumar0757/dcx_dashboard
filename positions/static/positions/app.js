@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalInvestment = document.getElementById('total-investment');
     const currentBalance = document.getElementById('current-balance');
 
+    let currentSortingMode = null; // Track the selected sorting mode
     // Mode of positin INR, USDT, BOTH
     let selectedMode = "USDT"; // Default mode
 
@@ -71,7 +72,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 totalProfitElement.textContent = data.total_pnl.toFixed(6);
                 totalInvestment.textContent = data.total_invested.toFixed(6);
                 currentBalance.textContent = data.current_account_balance.toFixed(6);
-                displayData(positionsData);
+                // Apply the current sorting mode if any
+                if (currentSortingMode) {
+                    applyCurrentSorting();
+                } else {
+                    displayData(positionsData); // Default display
+                }
             })
             .catch(error => console.error('Error fetching positions:', error));
     }
@@ -114,32 +120,64 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function applyCurrentSorting() {
+        switch (currentSortingMode) {
+            case 'sortPnlAsc':
+                sortByPnlAsc();
+                break;
+            case 'sortPnlDesc':
+                sortByPnlDesc();
+                break;
+            case 'sortSizeAsc':
+                sortBySizeAsc();
+                break;
+            case 'sortSizeDesc':
+                sortBySizeDesc();
+                break;
+            case 'sortRoeAsc':
+                sortByRoeAsc();
+                break;
+            case 'sortRoeDesc':
+                sortByRoeDesc();
+                break;
+            default:
+                displayData(positionsData); // Default display
+                break;
+        }
+    }
+
     function sortByPnlAsc() {
+        currentSortingMode = 'sortPnlAsc';
         const sortedData = positionsData.slice().sort((a, b) => a.pnl - b.pnl);
         displayData(sortedData);
     }
 
     function sortByPnlDesc() {
+        currentSortingMode = 'sortPnlDesc';
         const sortedData = positionsData.slice().sort((a, b) => b.pnl - a.pnl);
         displayData(sortedData);
     }
 
     function sortBySizeAsc() {
+        currentSortingMode = 'sortSizeAsc';
         const sortedData = positionsData.slice().sort((a, b) => (a.active_pos * a.mark_price) - (b.active_pos * b.mark_price));
         displayData(sortedData);
     }
 
     function sortBySizeDesc() {
+        currentSortingMode = 'sortSizeDesc';
         const sortedData = positionsData.slice().sort((a, b) => (b.active_pos * b.mark_price) - (a.active_pos * a.mark_price));
         displayData(sortedData);
     }
 
     function sortByRoeAsc() {
+        currentSortingMode = 'sortRoeAsc';
         const sortedData = positionsData.slice().sort((a, b) => a.roe - b.roe);
         displayData(sortedData);
     }
 
     function sortByRoeDesc() {
+        currentSortingMode = 'sortRoeDesc';
         const sortedData = positionsData.slice().sort((a, b) => b.roe - a.roe);
         displayData(sortedData);
     }
