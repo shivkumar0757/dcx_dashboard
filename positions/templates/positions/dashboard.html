@@ -34,13 +34,22 @@
             </div>
         </div>
         <hr/>
-        <div class="btn-group mt-3" role="group" aria-label="Sort buttons">
-            <button id="sort-pnl-asc" class="btn btn-secondary">Sort by PnL Asc</button>
-            <button id="sort-pnl-desc" class="btn btn-secondary">Sort by PnL Desc</button>
-            <button id="sort-size-asc" class="btn btn-secondary">Sort by Position Size Asc</button>
-            <button id="sort-size-desc" class="btn btn-secondary">Sort by Position Size Desc</button>
-            <button id="sort-roe-asc" class="btn btn-secondary">Sort by ROE Asc</button>
-            <button id="sort-roe-desc" class="btn btn-secondary">Sort by ROE Desc</button>
+        <p class="mt-3">Sort by:</p> <!-- Add this heading for clarity -->
+        <div class="btn-group mt-1" role="group" aria-label="Sort buttons">
+            <button id="sort-pnl-asc" class="btn btn-secondary" title="Sort by Profit and Loss (Low to High)">PnL: ↑
+            </button>
+            <button id="sort-pnl-desc" class="btn btn-secondary" title="Sort by Profit and Loss (High to Low)">PnL: ↓
+            </button>
+            <button id="sort-size-asc" class="btn btn-secondary" title="Sort by Position Size (Small to Large)">Size:
+                ↑
+            </button>
+            <button id="sort-size-desc" class="btn btn-secondary" title="Sort by Position Size (Large to Small)">Size:
+                ↓
+            </button>
+            <button id="sort-roe-asc" class="btn btn-secondary" title="Sort by Return on Equity (Low to High)">ROE: ↑
+            </button>
+            <button id="sort-roe-desc" class="btn btn-secondary" title="Sort by Return on Equity (High to Low)">ROE: ↓
+            </button>
         </div>
         <div id="positions-container" class="mt-3"></div>
     </div>
