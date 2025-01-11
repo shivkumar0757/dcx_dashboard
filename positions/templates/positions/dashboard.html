@@ -6,6 +6,12 @@
 {% block content %}
     <div class="container">
         <h1 class="mt-5">Welcome, {{ username }}</h1>
+
+        <div class="btn-group mt-3" role="group" aria-label="Toggle Margin Modes">
+            <button id="mode-usdt" class="btn btn-outline-primary active">USDT</button>
+            <button id="mode-inr" class="btn btn-outline-primary">INR</button>
+            <button id="mode-both" class="btn btn-outline-primary">Both</button>
+        </div>
         {#    Futures Account Info    #}
         <div class="card mt-3 w-100">
             <div class="card-body">
@@ -16,7 +22,7 @@
                 <div class="mt-3">
                     <h4>
                         Total Position Size: <span id="total-position-size">0</span> USDT
-                         (Total Leverage: <span id="total-leverage">0</span>  X)
+                        (Total Leverage: <span id="total-leverage">0</span> X)
                     </h4>
                     <h4>Total Invested: <span id="total-investment">0</span> USDT</h4>
                     <h4>Total PnL: <span id="total-profit-loss">0</span> USDT</h4>

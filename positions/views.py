@@ -89,7 +89,11 @@ class PositionListView(APIView):
             api_key = user_profile.get_api_key()
             logger.info('Keys reveived')
             api_secret = user_profile.get_api_secret()
-            positions = fetch_positions(api_key, api_secret)
+
+            margin_currency_short_name = request.query_params.get('margin_currency_short_name', 'USDT')
+            margin_currency_list = margin_currency_short_name.split(',')
+
+            positions = fetch_positions(api_key, api_secret, margin_currency_list)
             positions = [pos for pos in positions if pos['active_pos'] != 0]
             # print(positions)
             logger.info('Positions fetched')
@@ -118,6 +122,7 @@ class PositionListView(APIView):
                 total_invested += position['locked_margin']
 
                 current_account_balance = total_invested + total_pnl
+                position['margin_currency'] = position['margin_currency_short_name']
             logger.info('Positions processed')
             serializer = PositionSerializer(positions, many=True)
             print(serializer.data)

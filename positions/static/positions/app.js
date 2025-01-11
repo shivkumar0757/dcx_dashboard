@@ -14,11 +14,54 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalInvestment = document.getElementById('total-investment');
     const currentBalance = document.getElementById('current-balance');
 
+    // Mode of positin INR, USDT, BOTH
+        let selectedMode = "USDT"; // Default mode
+
+    document.getElementById('mode-usdt').addEventListener('click', () => {
+        selectedMode = "USDT";
+        updateModeButtons();
+        fetchData();
+    });
+
+    document.getElementById('mode-inr').addEventListener('click', () => {
+        selectedMode = "INR";
+        updateModeButtons();
+        fetchData();
+    });
+
+    document.getElementById('mode-both').addEventListener('click', () => {
+        selectedMode = "BOTH";
+        updateModeButtons();
+        fetchData();
+    });
+
+    function updateModeButtons() {
+    document.getElementById('mode-usdt').classList.remove('active');
+    document.getElementById('mode-inr').classList.remove('active');
+    document.getElementById('mode-both').classList.remove('active');
+
+    if (selectedMode === "USDT") {
+        document.getElementById('mode-usdt').classList.add('active');
+    } else if (selectedMode === "INR") {
+        document.getElementById('mode-inr').classList.add('active');
+    } else if (selectedMode === "BOTH") {
+        document.getElementById('mode-both').classList.add('active');
+    }
+}
+
 
     let positionsData = [];
 
+    // fetch data based on margin mode
     function fetchData() {
-        fetch('/crypto_dashboard/api/positions/')
+        const marginCurrency = selectedMode === "BOTH" ? ["USDT", "INR"] : [selectedMode];
+
+        fetch(`/crypto_dashboard/api/positions/?margin_currency_short_name=${marginCurrency}`, {
+        method: 'GET', // Changed to GET as we're using query parameters
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
             .then(response => response.json())
             .then(data => {
                 positionsData = data.positions;
@@ -43,7 +86,8 @@ document.addEventListener('DOMContentLoaded', function () {
             positionElement.innerHTML = `
                 <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">${pos.pair}</h5>
+                    <h5 class="card-title">${pos.pair}
+                    <span class="badge rounded-pill  bg-secondary small px-2 py-1">${pos.margin_currency}</span></h5>
                     <div class="row">
                         <div class="col-md-6">
                             <p class="card-text"><strong>Position Size:</strong> ${pos.active_pos} (${usdtSize.toFixed(6)} USDT)</p>

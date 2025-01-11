@@ -20,3 +20,4 @@ class PositionSerializer(serializers.Serializer):
     updated_at = serializers.IntegerField()
     pnl = serializers.FloatField()
     roe = serializers.FloatField()
+    margin_currency = serializers.CharField(max_length=10)

@@ -9,13 +9,14 @@ logger = logging.getLogger(__name__)
 
 COINDCX_API_URL = 'https://api.coindcx.com/exchange/v1/derivatives/futures/positions'
 
-def fetch_positions(api_key, api_secret):
+def fetch_positions(api_key, api_secret, margin_currency_short_name=None):
     try:
         timestamp = int(time.time() * 1000)
         body = {
             "timestamp": timestamp,
             "page": "1",
-            "size": "50"
+            "size": "50",
+            "margin_currency_short_name": margin_currency_short_name or ["USDT", "INR"]
         }
         json_body = json.dumps(body, separators=(',', ':'))
         secret_bytes = bytes(api_secret, encoding='utf-8')
